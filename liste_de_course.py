@@ -1,13 +1,12 @@
 import json
-import os
+from pathlib import Path
 import sys
 
-chemin = r"C:\Users\Utilisateur\Documents\Apprentissage_python\apprentissage-python\fichier.json"
+CUR_FILE = Path(__file__).resolve()
+CUR_DIR = CUR_FILE.parent
+LISTE_PATH = CUR_DIR / "liste.json"
 
-CUR_DIR = os.path.dirname(__file__)
-LISTE_PATH = os.path.join(CUR_DIR, "liste.json")
-
-if os.path.exists(LISTE_PATH):
+if LISTE_PATH.exists():
     with open(LISTE_PATH, "r") as f:
         liste = json.load(f)
 
