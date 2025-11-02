@@ -1,21 +1,36 @@
+import json
+import os
+import sys
 
-choix_possible = ["1","2","3","4","5"]
-choix = ""
-liste_de_course = []
+chemin = r"C:\Users\Utilisateur\Documents\Apprentissage_python\apprentissage-python\fichier.json"
+
+CUR_DIR = os.path.dirname(__file__)
+LISTE_PATH = os.path.join(CUR_DIR, "liste.json")
+
+if os.path.exists(LISTE_PATH):
+    with open(LISTE_PATH, "r") as f:
+        liste = json.load(f)
+
+else :
+    liste = []
+
+MENU_CHOICES = ["1","2","3","4","5"]
+
+MENU = """Choisissez parmi les 5 options suivantes
+1: Ajouter un élément à la liste
+2: Retirer un élément de la liste
+3: Afficher la liste
+4: Vider la liste
+5: Quitter
+Votr choix : """
+
 
 while True :
     
-    while choix not in choix_possible:
-        choix = input(
-            "-----------------------------------------\n"
-            "Choisissez parmi les 5 options suivantes\n"
-            "1: Ajouter un élément à la liste\n"
-            "2: Retirer un élément de la liste\n"
-            "3: Afficher la liste\n"
-            "4: Vider la liste\n"
-            "5: Quitter\n"
-            "--> Votre choix : "
-        )
+    choix = ""
+    
+    while choix not in MENU_CHOICES:
+        choix = input(MENU)
         
     if choix == "1":       
         element = ""
@@ -23,40 +38,40 @@ while True :
             element = input("Entrez le nom d'un élément à ajouter à la liste de course : ")
             if not element:
                 print("Vous n'avez rien rentré")
-        liste_de_course.append(element) 
-        choix = "" 
-        
+        liste.append(element)  
+  
     if choix == "2":     
-        if not liste_de_course:
+        if not liste:
             print("la liste est vide")  
         else :
             element_a_supprimer = input("Quel élement supprimer : ")
-            if element_a_supprimer in liste_de_course:
-                liste_de_course.remove(element_a_supprimer)
+            if element_a_supprimer in liste:
+                liste.remove(element_a_supprimer)
                 print(f" {element_a_supprimer} à bien été supprimer de la liste de course")
             else :
-                print(f"{element_a_supprimer} n'est pas dans la liste de course")
-        choix = ""    
+                print(f"{element_a_supprimer} n'est pas dans la liste de course")   
            
     elif choix =="3":
-        if liste_de_course:
+        if liste:
             print("Voici votre liste de course :")  
-            for i in range(len(liste_de_course)):
-                print(f"{i}. {liste_de_course[i]}")
+            for i in range(len(liste)):
+                print(f"{i+1}. {liste[i]}")
         else:
             print("la liste de course est vide")
-        choix = "" 
     
     elif choix =="4":
-        if liste_de_course:  
-            liste_de_course.clear()
+        if liste:  
+            liste.clear()
         else:
             print("la liste de course est deja vide")
-        choix = "" 
     
     elif choix == "5":
         print("Aurevoir")
-        break
+        with open(LISTE_PATH, "w") as f:    
+            json.dump(liste, f, indent=4)
+        sys.exit()
+    
+    print("-" * 50)
     
 
 
